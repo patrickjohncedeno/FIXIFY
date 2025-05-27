@@ -15,8 +15,8 @@ import (
 
 func InitiateXenditGCash(c *fiber.Ctx) error {
 	type RequestBody struct {
-		Amount float64  `json:"amount"`
-		Email  string `json:"email"`
+		Amount float64 `json:"amount"`
+		Email  string  `json:"email"`
 	}
 
 	var body RequestBody
@@ -94,12 +94,12 @@ func InitiateXenditGCash(c *fiber.Ctx) error {
 
 	// Save payment to database
 	payment := users.GCashPayment{
-		PaymentFrom: int(claims.UserId),
-		PaymentTo:   0, // Replace with the actual recipient ID if applicable
-		TransactionId:     responseBody.ID,
-		Amount:      body.Amount,
-		GcashID:  int(.GcashID),
-		PaymentDate: time.Now(),
+		PaymentFrom:   int(claims.UserId),
+		PaymentTo:     0, // Replace with the actual recipient ID if applicable
+		TransactionId: responseBody.ID,
+		Amount:        body.Amount,
+		GcashID:       0,
+		PaymentDate:   time.Now(),
 	}
 
 	if err := middleware.GetDB().Create(&payment).Error; err != nil {
