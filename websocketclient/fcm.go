@@ -7,9 +7,8 @@ import (
 	"log"
 	"sync"
 
-	firebase "firebase.google.com/go"
-	"firebase.google.com/go/messaging"
-	"google.golang.org/api/option"
+	firebase "firebase.google.com/go/v4"
+	"firebase.google.com/go/v4/messaging"
 	"gorm.io/gorm"
 )
 
@@ -26,15 +25,8 @@ var (
 )
 
 // InitializeFCM should be called once at application startup
-func InitializeFCM(db *gorm.DB, credentialsFile string) error {
+func InitializeFCM(db *gorm.DB, app *firebase.App) error {
 	initOnce.Do(func() {
-		opt := option.WithCredentialsFile(credentialsFile)
-		app, err := firebase.NewApp(context.Background(), nil, opt)
-		if err != nil {
-			initErr = err
-			return
-		}
-
 		client, err := app.Messaging(context.Background())
 		if err != nil {
 			initErr = err
